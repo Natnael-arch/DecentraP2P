@@ -1,0 +1,9 @@
+node_modules/
+cache/
+artifacts/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+.env
+frontend/.env
+package-lock.json
