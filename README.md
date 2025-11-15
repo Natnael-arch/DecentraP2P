@@ -1,12 +1,12 @@
 # P2P Escrow on Arc
 
-This repository contains a Solidity smart contract (`contracts/P2PEscrow.sol`) designed for Arc’s EVM-compatible L1. Arc settles fees directly in stablecoins such as USDC/EURC, so escrow operations benefit from deterministic costs and sub-second finality. The contract enables sellers to lock stablecoins on-chain while buyers complete fiat transfers off-chain.
+This repository contains a full-stack decentralized P2P marketplace on Arc’s EVM-compatible L1. Sellers post generic USDC/EURC liquidity while buyers spin up trade sessions on-demand. Arc’s stablecoin-native fees provide deterministic gas costs, so both escrow operations and tx fees stay in stable assets.
 
 ## Marketplace Workflow
 
-1. **Seller listings** – Sellers post generic liquidity with `createListing(amount, price)`. No buyer is chosen upfront.
+1. **Seller listings** – Sellers post generic liquidity with `createListing(amount, price)`. No buyer is chosen upfront; liquidity remains in the seller wallet until a trade starts.
 2. **Buyer sessions** – Any buyer can call `startTrade(listingId, amountRequested)`. This reduces the listing’s available liquidity and creates a trade that sits in `AwaitingSellerLock`.
-3. **Seller lock** – The seller locks just that trade’s amount via `sellerLockFunds(tradeId)` (scripts/ UI auto-approve USDC if needed).
+3. **Seller lock** – The seller locks just that trade’s amount via `sellerLockFunds(tradeId)` (scripts/UI auto-approve USDC if needed).
 4. **Buyer marks paid** – The buyer settles fiat off-chain, then calls `buyerMarkPaid(tradeId)`. A timeout deadline is stored on-chain.
 5. **Release / refund** – Seller calls `sellerRelease(tradeId)` to deliver USDC. If the seller never releases, anyone can call `triggerTimeoutRefund(tradeId)` once the deadline passes, automatically returning the locked funds to the seller.
 
@@ -54,18 +54,25 @@ npm install
 npm run dev
 ```
 
-- **Buyers tab** (default): lists all active liquidity. Clicking *Start Trade* opens a modal to request any partial amount and automatically calls `startTrade`. Buyer trades are shown with status badges and a `Mark Paid` button.
-- **Sellers tab**: allows creating listings, shows the seller’s listings, and surfaces every trade session with contextual actions (*Lock Funds*, *Release*, *Timeout Refund*). The UI auto-approves USDC where necessary.
-- Toasts and inline loaders communicate pending/confirmed transactions, and state refreshes in real time using contract events.
+- **Buyers tab** (default): lists all active listings, with a “Start Trade” modal that calls `startTrade`. Buyer trades display live statuses (AwaitingSellerLock → Locked → Paid → Released/Refunded) and provide a `Mark Paid` button.
+- **Sellers tab**: create listings, view remaining liquidity, and manage every trade session with contextual actions (*Lock Funds*, *Release*, *Timeout Refund*). The UI automatically handles USDC approvals before locking.
+- Toasts, disabled buttons, and inline loaders show pending/success/error states, while wagmi/viem contract watchers refresh data in real time.
 
 ## Environment variables
 
 ```
-PRIVATE_KEY=0xabc...           # wallet funded with testnet USDC (used for fees)
+# Hardhat / scripts
+PRIVATE_KEY=0xabc...             # wallet funded with Arc testnet USDC (gas + liquidity)
 ARC_RPC_URL=https://rpc-testnet.arc.network
-ARC_CHAIN_ID=67810
-STABLECOIN_ADDRESS=0x...       # USDC/EURC token on Arc
-ESCROW_ADDRESS=0x...           # filled after deployment for interaction scripts/frontend
+ARC_CHAIN_ID=5042002
+STABLECOIN_ADDRESS=0x...         # USDC/EURC token on Arc
+ESCROW_ADDRESS=0x...             # filled after deployment for scripts
+
+# Frontend (Vite)
+VITE_ARC_RPC_URL=https://rpc.testnet.arc.network
+VITE_ARC_CHAIN_ID=5042002
+VITE_ESCROW_ADDRESS=0x...
+VITE_STABLECOIN_ADDRESS=0x...    # optional override for auto-approval
 ```
 
 ## Docs & references
