@@ -1,10 +1,14 @@
 {
-  "framework": "vite",
-  "buildCommand": "cd frontend && npm install --no-audit --no-fund && npm run build",
-  "outputDirectory": "frontend/dist",
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
 
