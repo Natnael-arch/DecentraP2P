@@ -1,6 +1,6 @@
 {
   "framework": "vite",
-  "buildCommand": "cd frontend && npm ci && npm run build",
+  "buildCommand": "cd frontend && npm install --no-audit --no-fund && npm run build",
   "outputDirectory": "frontend/dist",
   "cleanUrls": true,
   "rewrites": [
