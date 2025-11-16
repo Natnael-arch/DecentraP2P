@@ -2,7 +2,8 @@ node_modules/
 cache/
 artifacts/
 frontend/node_modules/
-frontend/dist/
+# Allow committing built frontend for static hosting (Vercel/GH Pages)
+# frontend/dist/  <-- comment out to include dist in repo
 frontend/.vite/
 .env
 frontend/.env
