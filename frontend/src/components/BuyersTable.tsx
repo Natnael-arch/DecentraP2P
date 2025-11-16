@@ -1,5 +1,5 @@
 import { formatAmount, truncateAddress } from "../lib/format";
-import type { Listing, Trade } from "../types/escrow";
+import type { Listing } from "../types/escrow";
 
 type Props = {
   listings: Listing[];

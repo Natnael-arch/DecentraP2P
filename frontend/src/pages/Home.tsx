@@ -21,7 +21,7 @@ type TabId = "BUYERS" | "SELLERS";
 export default function Home() {
   const [tab, setTab] = useState<TabId>("BUYERS");
   const [showCreate, setShowCreate] = useState(false);
-  const [buyerListing, setBuyerListing] = useState<Listing | undefined>();
+  // Buyer-selected listing to start a trade for
   const [startTradeFor, setStartTradeFor] = useState<Listing | undefined>();
   const [activeTrade, setActiveTrade] = useState<Trade | undefined>();
   const [sessionRole, setSessionRole] = useState<"buyer" | "seller">("buyer");
@@ -35,7 +35,7 @@ export default function Home() {
   const isWrongNetwork = isConnected && chainId !== arcChain.id;
 
   const { listings, loading: listingsLoading, refresh: refreshListings } = useListings();
-  const { trades, loading: tradesLoading, refresh: refreshTrades } = useTrades();
+  const { trades, /* loading: tradesLoading, */ refresh: refreshTrades } = useTrades();
   const buyerActions = useBuyerActions(() => {
     refreshTrades();
     setActiveTrade(undefined);
@@ -50,10 +50,7 @@ export default function Home() {
     () => listings.filter((l) => l.seller.toLowerCase() === (address ?? "").toLowerCase()),
     [listings, address]
   );
-  const myTradesBuyer = useMemo(
-    () => trades.filter((t) => t.buyer.toLowerCase() === (address ?? "").toLowerCase()),
-    [trades, address]
-  );
+  // Buyer trades list not currently rendered in simplified UI
   const myTradesSeller = useMemo(
     () => trades.filter((t) => t.seller.toLowerCase() === (address ?? "").toLowerCase()),
     [trades, address]
