@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Decentra P2P Escrow</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Decentra P2P Escrow</h1>
+      <p>Interact with the Arc USDC/EURC escrow contract directly in your browser.</p>
+      <button id="connectButton">Connect Wallet</button>
+    </header>
+
+    <section class="card">
+      <h2>Configuration</h2>
+      <label>
+        Escrow Contract Address
+        <input id="escrowAddress" placeholder="0x..." />
+      </label>
+      <button id="setContractBtn">Use Contract</button>
+      <div class="status" id="connectionStatus">Not connected</div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h3>Create Listing</h3>
+        <label>Buyer Address <input id="buyerInput" placeholder="0x..." /></label>
+        <label>Amount (USDC 6 decimals) <input id="amountInput" type="number" placeholder="100" /></label>
+        <label>Fiat Price (informational) <input id="priceInput" type="number" placeholder="1000" /></label>
+        <label>Timeout (seconds) <input id="timeoutInput" type="number" placeholder="3600" /></label>
+        <button id="createBtn">Create & Lock</button>
+      </div>
+
+      <div class="card">
+        <h3>Mark Paid (Buyer)</h3>
+        <label>Order ID <input id="markOrderInput" type="number" /></label>
+        <button id="markPaidBtn">Mark Paid</button>
+      </div>
+
+      <div class="card">
+        <h3>Release (Seller)</h3>
+        <label>Order ID <input id="releaseOrderInput" type="number" /></label>
+        <button id="releaseBtn">Confirm & Release</button>
+      </div>
+
+      <div class="card">
+        <h3>Refund</h3>
+        <label>Order ID <input id="refundOrderInput" type="number" /></label>
+        <button id="refundBtn">Trigger Refund</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Listings</h2>
+      <button id="refreshBtn">Refresh</button>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Seller</th>
+            <th>Buyer</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Timeout</th>
+          </tr>
+        </thead>
+        <tbody id="ordersBody"></tbody>
+      </table>
+    </section>
+
+    <section class="card log">
+      <h2>Activity</h2>
+      <pre id="logOutput"></pre>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.min.js"></script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
+

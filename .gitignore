@@ -6,4 +6,5 @@ frontend/dist/
 frontend/.vite/
 .env
 frontend/.env
+frontend/.env*
 package-lock.json

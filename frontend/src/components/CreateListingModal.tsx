@@ -72,3 +72,5 @@ export function CreateListingModal({ open, disabled, onClose, onSubmit }: Props)
   );
 }
 
+export default CreateListingModal;
+

@@ -18,11 +18,13 @@ export const arcChain = defineChain({
 
 export const wagmiConfig = createConfig({
   chains: [arcChain],
-  connectors: [injected({ target: "metaMask" })],
+  // Use generic injected connector so any browser wallet (MetaMask, Coinbase, etc.) can authorize this origin.
+  connectors: [injected()],
   transports: {
     [arcChain.id]: http(ARC_RPC_URL),
   },
 });
 
 export const queryClient = new QueryClient();
+
 

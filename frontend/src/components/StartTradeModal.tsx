@@ -69,3 +69,5 @@ export function StartTradeModal({ listing, open, disabled, onClose, onSubmit }: 
   );
 }
 
+export default StartTradeModal;
+

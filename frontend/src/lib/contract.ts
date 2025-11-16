@@ -7,3 +7,4 @@ export const STABLECOIN_ADDRESS = (import.meta.env.VITE_STABLECOIN_ADDRESS || ""
 export const ESCROW_ABI = escrowArtifact.abi;
 export const ERC20_ABI = erc20Artifact.abi;
 
+
