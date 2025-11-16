@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "cd frontend && npm install --no-audit --no-fund && npm run build"
+    "build": "npm --prefix frontend install --no-audit --no-fund && npm --prefix frontend run build && rm -rf dist && mkdir -p dist && cp -R frontend/dist/* dist/"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
