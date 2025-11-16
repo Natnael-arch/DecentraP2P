@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "build": "cd frontend && npm install --no-audit --no-fund && npm run build"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "dotenv": "^17.2.3",
